@@ -1,0 +1,69 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { company, formattedAddress } from '../data/site';
+---
+
+<Layout
+  title={`Privacy Policy | ${company.legalName}`}
+  description="Privacy information for the MANSI TP LTD website."
+>
+  <article class="bg-cream pt-28 pb-20">
+    <div class="wrap">
+      <p class="eyebrow">Legal</p>
+      <h1 class="display display-section mt-3 text-forest">Privacy Policy</h1>
+      <p class="mt-4 text-sm text-muted">Last updated: 9 October 2026</p>
+
+      <div class="legal-prose mt-10">
+        <p>
+          This page explains how the MANSI TP LTD website currently handles information. It is written for a simple informational site and should be reviewed by a qualified adviser before it is relied on as a complete privacy notice.
+        </p>
+
+        <h2>Who we are</h2>
+        <p>
+          This website is published by {company.legalName}, a private limited company registered in England. Registered office: {formattedAddress()}. Email:
+          <a href={`mailto:${company.email}`}>{company.email}</a>.
+          Phone:
+          <a href={company.phoneHref}>{company.phoneDisplay}</a>.
+        </p>
+
+        <h2>What this website does</h2>
+        <p>
+          The website provides information about {company.legalName} and its registered activity in the wholesale of fruit and vegetables. It does not currently include an account system, online ordering, payment processing, or a live enquiry inbox.
+        </p>
+
+        <h2>Information you may provide</h2>
+        <p>
+          The contact form collects name, optional business name, email address, and a message. Those fields exist so an enquiry can be described clearly once a form or email service is connected.
+        </p>
+        <p class="note">
+          <strong>Needs updating:</strong> the contact form does not currently send information to {company.legalName} or to any third-party service. Validated form entries stay in the browser and are not stored by this website. When a real form or email service is connected, this policy should be updated to name the provider, describe what is collected, why it is used, how long it is kept, and where it is processed.
+        </p>
+
+        <h2>Cookies, analytics and hosting</h2>
+        <p>
+          This website does not set its own analytics or advertising cookies. If the site is hosted on Cloudflare, Cloudflare may process technical information such as IP addresses and request logs in order to deliver the site securely. Those processing activities should be confirmed against the hosting settings actually in use.
+        </p>
+        <p class="note">
+          <strong>Needs updating:</strong> if analytics, advertising pixels, session tools, or additional cookies are added later, describe them here and, where required, add a consent mechanism.
+        </p>
+
+        <h2>Your rights</h2>
+        <p>
+          Individuals in the United Kingdom may have rights in relation to personal data, including rights to access, correction, and deletion, depending on the circumstances. Because this website does not currently store contact-form submissions, there is usually no form data held by {company.legalName} from this page.
+        </p>
+        <p class="note">
+          <strong>Needs legal review:</strong> this summary is not a complete UK GDPR notice. It should be expanded once a form service, email inbox, or other processing activity is in place.
+        </p>
+
+        <h2>Contact</h2>
+        <p>
+          Privacy questions can be sent by email to
+          <a href={`mailto:${company.email}`}>{company.email}</a>,
+          by telephone on
+          <a href={company.phoneHref}>{company.phoneDisplay}</a>,
+          or in writing to the registered office above. The on-site form is not currently connected, so form messages are not delivered until a form service is added.
+        </p>
+      </div>
+    </div>
+  </article>
+</Layout>

@@ -1,0 +1,35 @@
+---
+import { Image } from 'astro:assets';
+import heroImage from '../assets/images/hero.jpg';
+---
+
+<section id="home" class="bg-cream pt-24 pb-12 md:pt-28 md:pb-16" aria-labelledby="hero-heading">
+  <div class="wrap grid items-center gap-8 md:grid-cols-2 md:gap-12">
+    <div>
+      <p class="eyebrow">Fruit & vegetable wholesale</p>
+      <h1 id="hero-heading" class="display display-hero mt-4 text-forest">
+        Fresh produce.<br />A better way to source.
+      </h1>
+      <p class="mt-5 max-w-md text-[1.05rem] leading-relaxed text-muted">
+        MANSI TP LTD operates in the wholesale trade of fruit and vegetables. Explore our produce-focused business and contact us to discuss your wholesale enquiry.
+      </p>
+      <div class="mt-7 flex flex-col gap-3 sm:flex-row">
+        <a class="btn btn-primary" href="#contact">Make a Business Enquiry</a>
+        <a class="btn btn-secondary" href="#produce">Explore Our Produce</a>
+      </div>
+    </div>
+    <figure class="overflow-hidden rounded-lg">
+      <Image
+        src={heroImage}
+        alt="Colourful market stall of fresh fruit and vegetables, used as visual inspiration rather than a photograph of MANSI TP LTD stock"
+        widths={[640, 960, 1280, 1800]}
+        sizes="(min-width: 768px) 50vw, 100vw"
+        quality={74}
+        format="webp"
+        loading="eager"
+        fetchpriority="high"
+        class="aspect-[4/3] h-full w-full object-cover"
+      />
+    </figure>
+  </div>
+</section>

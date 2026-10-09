@@ -1,0 +1,75 @@
+---
+import { Image } from 'astro:assets';
+import fruit from '../assets/images/fruit.jpg';
+import vegetables from '../assets/images/vegetables.jpg';
+import essentials from '../assets/images/essentials.jpg';
+---
+
+<section id="produce" class="bg-white py-16 md:py-20" aria-labelledby="produce-heading">
+  <div class="wrap">
+    <p class="eyebrow" data-reveal>Our produce</p>
+    <h2 id="produce-heading" class="display display-section mt-3 text-forest" data-reveal>
+      A world of fresh possibilities
+    </h2>
+    <p class="mt-4 max-w-2xl leading-relaxed text-muted" data-reveal>
+      Fruit and vegetables sit at the heart of our business. Discover the variety and colour of fresh produce through a clean, visually engaging presentation.
+    </p>
+
+    <div class="mt-10 grid gap-6 lg:grid-cols-2">
+      <article class="lg:row-span-2" data-reveal>
+        <figure class="overflow-hidden rounded-lg">
+          <Image
+            src={fruit}
+            alt="Assorted fresh fruit including pineapple, citrus, grapes and papaya, shown as illustrative produce photography"
+            widths={[640, 960, 1400]}
+            sizes="(min-width: 1024px) 50vw, 100vw"
+            quality={72}
+            format="webp"
+            loading="lazy"
+            class="aspect-[4/3] w-full object-cover lg:aspect-[4/5] lg:min-h-full"
+          />
+        </figure>
+        <h3 class="mt-4 text-lg font-bold">Fresh Fruit</h3>
+        <p class="mt-1 text-muted">Imagery featuring seasonal-looking fruit.</p>
+      </article>
+
+      <article data-reveal>
+        <figure class="overflow-hidden rounded-lg">
+          <Image
+            src={vegetables}
+            alt="A variety of fresh vegetables including peppers, tomatoes, carrots and beans, shown as illustrative produce photography"
+            widths={[640, 960, 1200]}
+            sizes="(min-width: 1024px) 50vw, 100vw"
+            quality={72}
+            format="webp"
+            loading="lazy"
+            class="aspect-[16/10] w-full object-cover"
+          />
+        </figure>
+        <h3 class="mt-4 text-lg font-bold">Fresh Vegetables</h3>
+        <p class="mt-1 text-muted">Imagery featuring colourful vegetables and leafy greens.</p>
+      </article>
+
+      <article data-reveal>
+        <figure class="overflow-hidden rounded-lg">
+          <Image
+            src={essentials}
+            alt="Crates of everyday fruit and vegetables arranged on shelves, shown as illustrative produce photography rather than company stock"
+            widths={[640, 960, 1200]}
+            sizes="(min-width: 1024px) 50vw, 100vw"
+            quality={72}
+            format="webp"
+            loading="lazy"
+            class="aspect-[16/10] w-full object-cover"
+          />
+        </figure>
+        <h3 class="mt-4 text-lg font-bold">Everyday Essentials</h3>
+        <p class="mt-1 text-muted">A varied composition of common fruit and vegetables.</p>
+      </article>
+    </div>
+
+    <p class="mt-8 text-sm text-muted" data-reveal>
+      These are visual categories, not a confirmed stock list. Product availability can be discussed through a business enquiry.
+    </p>
+  </div>
+</section>

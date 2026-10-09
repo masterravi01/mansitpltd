@@ -1,0 +1,21 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { company } from '../data/site';
+---
+
+<Layout
+  title={`Page not found | ${company.legalName}`}
+  description="The requested page could not be found on the MANSI TP LTD website."
+  noIndex
+>
+  <section class="bg-cream pt-28 pb-20">
+    <div class="wrap max-w-2xl">
+      <p class="eyebrow">404</p>
+      <h1 class="display display-hero mt-3 text-forest">This page does not exist.</h1>
+      <p class="mt-5 leading-relaxed text-muted">
+        The page you were looking for could not be found, or it may have moved.
+      </p>
+      <a class="btn btn-primary mt-8" href="/">Return home</a>
+    </div>
+  </section>
+</Layout>

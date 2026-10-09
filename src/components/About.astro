@@ -1,0 +1,30 @@
+---
+import { Image } from 'astro:assets';
+import aboutImage from '../assets/images/about.jpg';
+---
+
+<section id="about" class="bg-cream py-16 md:py-20" aria-labelledby="about-heading">
+  <div class="wrap grid items-center gap-8 md:grid-cols-2 md:gap-12">
+    <figure class="overflow-hidden rounded-lg" data-reveal>
+      <Image
+        src={aboutImage}
+        alt="Close-up of carrots, peppers, courgettes and tomatoes, used as produce photography rather than a photograph of company operations"
+        widths={[640, 960, 1400]}
+        sizes="(min-width: 768px) 50vw, 100vw"
+        quality={72}
+        format="webp"
+        loading="lazy"
+        class="aspect-[4/5] w-full object-cover md:aspect-[4/3]"
+      />
+    </figure>
+    <div>
+      <p class="eyebrow" data-reveal>About</p>
+      <h2 id="about-heading" class="display display-section mt-3 text-forest" data-reveal>
+        Rooted in the produce trade
+      </h2>
+      <p class="mt-5 leading-relaxed text-muted" data-reveal>
+        MANSI TP LTD is a UK-registered private limited company whose stated business activity is the wholesale of fruit and vegetables. We aim to present our business clearly and make it easy for prospective customers to get in touch.
+      </p>
+    </div>
+  </div>
+</section>

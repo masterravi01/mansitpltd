@@ -1,0 +1,142 @@
+---
+import { company, formattedAddress } from '../data/site';
+---
+
+<section id="contact" class="bg-white py-16 md:py-20" aria-labelledby="contact-heading">
+  <div class="wrap grid gap-10 lg:grid-cols-12 lg:gap-14">
+    <div class="lg:col-span-5">
+      <p class="eyebrow" data-reveal>Enquiry</p>
+      <h2 id="contact-heading" class="display display-section mt-3 text-forest" data-reveal>
+        Let's talk produce
+      </h2>
+      <p class="mt-5 leading-relaxed text-muted" data-reveal>
+        Interested in discussing a wholesale enquiry? Get in touch with MANSI TP LTD to start the conversation.
+      </p>
+      <dl class="mt-8 space-y-5" data-reveal>
+        <div>
+          <dt class="text-sm font-semibold text-muted">Email</dt>
+          <dd class="mt-1">
+            <a class="contact-link break-all" href={`mailto:${company.email}`}>{company.email}</a>
+          </dd>
+        </div>
+        <div>
+          <dt class="text-sm font-semibold text-muted">Phone</dt>
+          <dd class="mt-1">
+            <a class="contact-link font-semibold" href={company.phoneHref}>{company.phoneDisplay}</a>
+          </dd>
+        </div>
+        <div>
+          <dt class="text-sm font-semibold text-muted">Registered office</dt>
+          <dd>
+            <address class="mt-1 not-italic leading-relaxed">{formattedAddress()}</address>
+          </dd>
+        </div>
+      </dl>
+    </div>
+
+    <div class="lg:col-span-7">
+      <!--
+        TODO: Connect this form to a real form/email service or API
+        (for example Formspree, Web3Forms, Basin, or a Cloudflare Worker).
+        Do not add a fake endpoint. Validated submissions stay in the browser
+        until a real service is configured. Then POST the FormData below.
+      -->
+      <form id="enquiry-form" class="grid gap-5 rounded-lg bg-cream p-5 sm:p-7" novalidate data-reveal>
+        <div class="form-field">
+          <label for="name">Name</label>
+          <input id="name" name="name" type="text" autocomplete="name" required />
+          <p class="field-error" data-error-for="name"></p>
+        </div>
+        <div class="form-field">
+          <label for="business">Business name <span class="font-normal text-muted">(optional)</span></label>
+          <input id="business" name="business" type="text" autocomplete="organization" />
+          <p class="field-error" data-error-for="business"></p>
+        </div>
+        <div class="form-field">
+          <label for="email">Email address</label>
+          <input id="email" name="email" type="email" autocomplete="email" required />
+          <p class="field-error" data-error-for="email"></p>
+        </div>
+        <div class="form-field">
+          <label for="message">Enquiry message</label>
+          <textarea id="message" name="message" required></textarea>
+          <p class="field-error" data-error-for="message"></p>
+        </div>
+        <div>
+          <button class="btn btn-primary" type="submit" id="submit-btn">Send Enquiry</button>
+          <p id="form-status" class="mt-4 text-sm leading-relaxed text-muted" role="status" aria-live="polite">
+            The form is ready to complete. Submissions are not sent yet, because a form or email service has not been connected.
+          </p>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<script>
+  const form = document.getElementById('enquiry-form') as HTMLFormElement | null;
+  const status = document.getElementById('form-status');
+  const submitBtn = document.getElementById('submit-btn') as HTMLButtonElement | null;
+  if (!form || !status || !submitBtn) throw new Error('Contact form markup missing');
+
+  const requiredFields = ['name', 'email', 'message'] as const;
+
+  function setError(name: string, message: string) {
+    const output = form.querySelector(`[data-error-for="${name}"]`);
+    const field = form.querySelector<HTMLElement>(`#${name}`);
+    if (output) output.textContent = message;
+    field?.setAttribute('aria-invalid', message ? 'true' : 'false');
+  }
+
+  function validate() {
+    let valid = true;
+    const data = new FormData(form);
+
+    for (const name of requiredFields) {
+      setError(name, '');
+      const value = String(data.get(name) ?? '').trim();
+
+      if (!value) {
+        setError(name, 'This field is required.');
+        valid = false;
+        continue;
+      }
+
+      if (name === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+        setError(name, 'Enter a valid email address.');
+        valid = false;
+      }
+
+      if (name === 'message' && value.length < 10) {
+        setError(name, 'Please add a little more detail.');
+        valid = false;
+      }
+    }
+
+    setError('business', '');
+    return valid;
+  }
+
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    status.textContent = '';
+
+    if (!validate()) {
+      status.textContent = 'Please check the highlighted fields and try again.';
+      const firstInvalid = form.querySelector<HTMLElement>('[aria-invalid="true"]');
+      firstInvalid?.focus();
+      return;
+    }
+
+    submitBtn.disabled = true;
+    status.textContent = 'Checking your enquiry…';
+
+    window.setTimeout(() => {
+      // TODO: POST the FormData to a real form/email service once one is configured.
+      // Example only: await fetch(endpoint, { method: 'POST', body: new FormData(form) });
+      submitBtn.disabled = false;
+      status.textContent =
+        'The form is valid, but enquiries are not sent yet. A form or email service still needs to be connected.';
+    }, 350);
+  });
+</script>

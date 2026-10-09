@@ -1,0 +1,204 @@
+---
+import { company, enquiryLink, navLinks } from '../data/site';
+
+interface Props {
+  overlay?: boolean;
+}
+
+const { overlay = false } = Astro.props;
+const onHome = Astro.url.pathname === '/';
+
+function hrefFor(href: string) {
+  if (href === '/') return onHome ? '#home' : '/';
+  if (onHome && href.startsWith('/#')) return href.slice(1);
+  return href;
+}
+---
+
+<header
+  id="site-header"
+  class:list={['nav-bar fixed inset-x-0 top-0 z-50', overlay ? 'nav-clear' : 'nav-solid']}
+>
+  <div class="wrap flex items-center justify-between gap-4 py-3.5">
+    <a href={hrefFor('/')} class="flex items-center gap-2 no-underline" aria-label={`${company.legalName} home`}>
+      <span class="leaf" aria-hidden="true"></span>
+      <span class="text-[0.98rem] font-bold tracking-tight md:text-[1.05rem]">{company.brandName}</span>
+    </a>
+
+    <nav class="hidden items-center gap-6 md:flex" aria-label="Primary">
+      {
+        navLinks.map((link) => (
+          <a href={hrefFor(link.href)} class="text-[0.94rem] font-medium no-underline hover:text-leaf">
+            {link.label}
+          </a>
+        ))
+      }
+      <a href={hrefFor(enquiryLink.href)} class="btn btn-primary">
+        {enquiryLink.label}
+      </a>
+    </nav>
+
+    <button
+      id="menu-toggle"
+      class="inline-flex size-11 items-center justify-center md:hidden"
+      type="button"
+      aria-controls="mobile-menu"
+      aria-expanded="false"
+      aria-label="Open menu"
+    >
+      <span class="sr-only">Menu</span>
+      <span class="menu-icon" aria-hidden="true">
+        <span></span>
+        <span></span>
+      </span>
+    </button>
+  </div>
+</header>
+
+<div id="mobile-menu" class="menu-screen" hidden>
+  <div class="wrap flex h-full flex-col pt-24 pb-10">
+    <nav aria-label="Mobile">
+      <ul class="flex flex-col">
+        {
+          navLinks.map((link) => (
+            <li>
+              <a href={hrefFor(link.href)} class="menu-item">
+                {link.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+    <a href={hrefFor(enquiryLink.href)} class="btn btn-primary mt-6 w-fit">{enquiryLink.label}</a>
+  </div>
+</div>
+
+<style>
+  .nav-bar {
+    transition:
+      background-color 180ms ease,
+      color 180ms ease,
+      border-color 180ms ease;
+  }
+
+  #site-header.nav-clear,
+  #site-header.nav-solid,
+  #site-header.is-scrolled {
+    color: var(--color-ink);
+    background: rgb(247 245 236 / 0.96);
+    border-bottom: 1px solid rgb(32 40 32 / 0.08);
+  }
+
+  #site-header.menu-open {
+    background: white;
+  }
+
+  .leaf {
+    width: 0.9rem;
+    height: 0.9rem;
+    border-radius: 0 10px 3px 10px;
+    background: var(--color-leaf);
+  }
+
+  .menu-icon {
+    display: grid;
+    gap: 6px;
+  }
+
+  .menu-icon span {
+    display: block;
+    width: 20px;
+    height: 1.5px;
+    background: currentColor;
+    transition: transform 180ms ease;
+  }
+
+  #menu-toggle[aria-expanded='true'] .menu-icon span:nth-child(1) {
+    transform: translateY(3.75px) rotate(45deg);
+  }
+
+  #menu-toggle[aria-expanded='true'] .menu-icon span:nth-child(2) {
+    transform: translateY(-3.75px) rotate(-45deg);
+  }
+
+  .menu-screen {
+    position: fixed;
+    inset: 0;
+    z-index: 40;
+    background: white;
+  }
+
+  .menu-item {
+    display: block;
+    padding-block: 0.85rem;
+    border-bottom: 1px solid rgb(32 40 32 / 0.1);
+    color: inherit;
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-decoration: none;
+  }
+</style>
+
+<script>
+  const header = document.getElementById('site-header');
+  const toggle = document.getElementById('menu-toggle');
+  const panel = document.getElementById('mobile-menu');
+  if (!header || !toggle || !panel) throw new Error('Navbar markup missing');
+
+  const overlay = header.classList.contains('nav-clear');
+  const focusableSelector = 'a[href], button:not([disabled])';
+
+  function setExpanded(open: boolean) {
+    toggle.setAttribute('aria-expanded', String(open));
+    toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    panel.hidden = !open;
+    document.body.style.overflow = open ? 'hidden' : '';
+    header.classList.toggle('menu-open', open);
+    header.classList.toggle('is-scrolled', !open && (overlay ? window.scrollY > 12 : true));
+    if (open) {
+      const first = panel.querySelector<HTMLElement>(focusableSelector);
+      first?.focus();
+    }
+  }
+
+  function onScroll() {
+    const menuOpen = toggle.getAttribute('aria-expanded') === 'true';
+    if (menuOpen) return;
+    header.classList.toggle('is-scrolled', overlay ? window.scrollY > 12 : true);
+  }
+
+  toggle.addEventListener('click', () => {
+    setExpanded(toggle.getAttribute('aria-expanded') !== 'true');
+  });
+
+  panel.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', () => setExpanded(false));
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (toggle.getAttribute('aria-expanded') !== 'true') return;
+
+    if (event.key === 'Escape') {
+      setExpanded(false);
+      toggle.focus();
+      return;
+    }
+
+    if (event.key !== 'Tab') return;
+    const focusable = [toggle, ...panel.querySelectorAll<HTMLElement>(focusableSelector)];
+    if (focusable.length === 0) return;
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
+    }
+  });
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+</script>

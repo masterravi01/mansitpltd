@@ -1,0 +1,68 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { company, formattedAddress } from '../data/site';
+---
+
+<Layout
+  title={`Website Terms | ${company.legalName}`}
+  description="Website terms for the MANSI TP LTD website."
+>
+  <article class="bg-cream pt-28 pb-20">
+    <div class="wrap">
+      <p class="eyebrow">Legal</p>
+      <h1 class="display display-section mt-3 text-forest">Website Terms</h1>
+      <p class="mt-4 text-sm text-muted">Last updated: 9 October 2026</p>
+
+      <div class="legal-prose mt-10">
+        <p>
+          These terms explain how you may use the MANSI TP LTD website. They are a simple website notice, not a supply contract, and should be reviewed by a qualified adviser before they are treated as complete legal terms.
+        </p>
+        <p class="note">
+          <strong>Needs legal review:</strong> this page is a starting draft only. It does not create legal guarantees and should not be relied on as comprehensive website, consumer, or wholesale terms.
+        </p>
+
+        <h2>About this website</h2>
+        <p>
+          The site is published by {company.legalName}, registered office {formattedAddress()}. Enquiries may be directed to
+          <a href={`mailto:${company.email}`}>{company.email}</a>
+          or
+          <a href={company.phoneHref}>{company.phoneDisplay}</a>.
+          It provides general information about the wholesale of fruit and vegetables.
+        </p>
+
+        <h2>Information on the site</h2>
+        <p>
+          Company details on this website are based on registered information available at the time of publication. Photographs of fruit and vegetables are illustrative. They are not photographs of MANSI TP LTD stock, premises, or confirmed product availability.
+        </p>
+
+        <h2>Enquiries</h2>
+        <p>
+          Submitting the contact form, or asking about a wholesale enquiry, does not create a contract. Any arrangement would need to be agreed separately. The on-site form is not currently connected to a delivery service, so completed forms are not received until that integration is added.
+        </p>
+
+        <h2>Intellectual property</h2>
+        <p>
+          The MANSI TP LTD name, layout, and original website content belong to {company.legalName} unless otherwise stated. Some photographs are used as produce photography and should not be taken as photographs of actual company operations, stock or clients.
+        </p>
+
+        <h2>Acceptable use</h2>
+        <p>
+          You may view and share pages from this website for ordinary personal or business reference. You should not misuse the site, attempt to disrupt it, or copy it in a way that suggests a misleading association with {company.legalName}.
+        </p>
+
+        <h2>Liability</h2>
+        <p>
+          The website is provided for information. {company.legalName} does not make unsupported promises about availability, supply outcomes, or uninterrupted access.
+        </p>
+        <p class="note">
+          <strong>Needs legal review:</strong> any limitation of liability, consumer-rights wording, or governing-law clause should be confirmed for a UK audience before this page is treated as final. A possible governing law is the law of England and Wales, because the company is registered in England, but that choice should be confirmed.
+        </p>
+
+        <h2>Changes</h2>
+        <p>
+          These terms may be updated as the website, services, or legal requirements change. The date at the top of this page will be revised when that happens.
+        </p>
+      </div>
+    </div>
+  </article>
+</Layout>
